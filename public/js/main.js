@@ -38,11 +38,23 @@ function draw(){
 	// Sight Polygons
 	var fuzzyRadius = 10;
 
-	ctx.globalCompositeOperation = 'destination-over';
+
 	var polygons = [getSightPolygon(player.x,player.y, segments)];
+
+	var allPolys=[];
+	for (var i = 0; i < snap.state.length; i++) {
+		var aPlayer = snap.state[i];
+		allPolys.push(getSightPolygon(aPlayer.x,aPlayer.y, segments));
+	}
 	// DRAW AS A GIANT POLYGON	
+
 	drawPolygon(polygons[0],ctx,"#fff");
-	ctx.globalCompositeOperation = 'source-over';
+
+	for (var i = 0; i < allPolys.length; i++) {
+		drawPolygon(allPolys[i],ctx,"hsla(0,0%,0%,0.2)");
+	}
+
+	
 
 	// Draw red dots
 	for (var i = 0; i < snap.state.length; i++) {
