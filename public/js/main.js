@@ -51,7 +51,7 @@ function draw(){
 	drawPolygon(polygons[0],ctx,"#fff");
 
 	for (var i = 0; i < allPolys.length; i++) {
-		drawPolygon(allPolys[i],ctx,"hsla(0,0%,0%,0.2)");
+		drawPolygon(allPolys[i],ctx,"hsla(0,0%,0%,0.1)");
 	}
 
 	
