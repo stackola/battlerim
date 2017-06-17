@@ -1,0 +1,28 @@
+{
+  "engines": {
+    "node": "7.9.0"
+  },
+  "name": "battlerim",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "web": "node index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stackola/battlerim.git"
+  },
+  "author": "Willi Krappen",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/stackola/battlerim/issues"
+  },
+  "homepage": "https://github.com/stackola/battlerim#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "socket.io": "^2.0.3"
+  }
+}
