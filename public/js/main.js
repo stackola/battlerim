@@ -69,9 +69,9 @@ function draw(){
 		
 	}
 	if (snap.state.bullets){
-		
 
-		console.log("drawing bullets");
+
+		
 		for (var i = 0; i < snap.state.bullets.length; i++) {
 			var bullet = snap.state.bullets[i];
 			if (inside(bullet, polygons[0])){

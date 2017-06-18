@@ -51,7 +51,7 @@ var timeline = {
 
 
 		}
-		console.log(newFrame);
+		
 
 		return newFrame;
 
