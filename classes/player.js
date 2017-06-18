@@ -71,7 +71,7 @@ var Player = function(name, socket) {
 		}
 		if (keys.mouse){
 			console.log("MOUSE PRESSED");
-			this.bullets.push(new Bullet({x:this.x,y:this.y}, this.angle, 3, this))
+			this.bullets.push(new Bullet({x:this.x,y:this.y}, this.angle, 6, this))
 			//fire a bullet!
 		}
 	}.bind(this));
