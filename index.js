@@ -28,20 +28,29 @@ http.listen(process.env.PORT || 5000, function(){
 
 function tick(){
 	positions=[];
+	bullets=[];
 	//move player
 	for (var i = 0; i < players.length; i++) {
 		var p = players[i];
 		p.tick();
 		positions.push({x:p.x,y:p.y});
+		for (var ii = 0; ii < p.bullets.length; ii++) {
+			var bb = p.bullets[ii];
+			if (bb.speed > 0 ){
+				bb.tick();
+				bullets.push({x:bb.point.x, y:bb.point.y});
+			}
+			
+		}		
 	}
-
 
 
 }
 
 
 function frame(){
-	io.sockets.emit("gamestate",positions);
+	var obj = {players:positions, bullets:bullets};
+	io.sockets.emit("gamestate",obj);
 }
 setInterval(tick, 1000/60);
 

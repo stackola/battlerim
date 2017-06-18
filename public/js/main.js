@@ -12,7 +12,8 @@ var player = {
 	x:320,
 	y:180,
 	speedX:0,
-	speedY:0
+	speedY:0,
+	angle:0
 }
 var id = 0;
 
@@ -42,8 +43,8 @@ function draw(){
 	var polygons = [getSightPolygon(player.x,player.y, segments)];
 
 	var allPolys=[];
-	for (var i = 0; i < snap.state.length; i++) {
-		var aPlayer = snap.state[i];
+	for (var i = 0; i < snap.state.players.length; i++) {
+		var aPlayer = snap.state.players[i];
 		allPolys.push(getSightPolygon(aPlayer.x,aPlayer.y, segments));
 	}
 	// DRAW AS A GIANT POLYGON	
@@ -57,8 +58,8 @@ function draw(){
 	
 
 	// Draw red dots
-	for (var i = 0; i < snap.state.length; i++) {
-		var aPlayer = snap.state[i];
+	for (var i = 0; i < snap.state.players.length; i++) {
+		var aPlayer = snap.state.players[i];
 		if (inside(aPlayer, polygons[0])){
 			ctx.fillStyle = "#dd3838";
 			ctx.beginPath();
@@ -67,6 +68,28 @@ function draw(){
 		}
 		
 	}
+	if (snap.state.bullets){
+		
+
+		console.log("drawing bullets");
+		for (var i = 0; i < snap.state.bullets.length; i++) {
+			var bullet = snap.state.bullets[i];
+			if (inside(bullet, polygons[0])){
+				ctx.fillStyle = "#dd3838";
+				ctx.beginPath();
+				ctx.arc(bullet.x, bullet.y, 1, 0, 2*Math.PI, false);
+				ctx.fill();
+			}
+
+		}
+	}
+
+	// Draw line from player to mouse
+
+	ctx.beginPath();
+	ctx.moveTo(player.x, player.y);
+	ctx.lineTo(player.x + 10 * Math.cos(player.angle), player.y + 10 * Math.sin(player.angle));
+	ctx.stroke();
 
 
 }
@@ -132,15 +155,23 @@ function drawLoop(){
 		left:keys[37]|false,
 		right:keys[39]|false,
 		down:keys[40]|false,
-		up:keys[38]|false
+		up:keys[38]|false,
+		mouse:keys["mouse"]|false
 	}
+	var angleRadians = Math.atan2(Mouse.y - player.y, Mouse.x - player.x);
+	player.angle=angleRadians;
+	pressed['angle']=player.angle;
 
 	
 	socket.emit("frame",pressed);
 
 	snap = timeline.getSnap();
-	player.x = snap.state[id].x;
-	player.y = snap.state[id].y;
+	player.x = snap.state.players[id].x;
+	player.y = snap.state.players[id].y;
+
+
+
+
 	draw();
 	
 }
@@ -164,9 +195,19 @@ var Mouse = {
 canvas.onmousemove = function(event){	
 	Mouse.x = event.clientX;
 	Mouse.y = event.clientY;
+
+	///draw line from player position to mouse?
+
 	
 };
 
+canvas.onmousedown = function(event){
+	keys["mouse"]=true;
+}
+
+canvas.onmouseup = function(event){
+	keys["mouse"]=false;
+}
 
 window.addEventListener("keydown", function (e) {
 	keys[e.keyCode] = true;

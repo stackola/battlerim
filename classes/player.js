@@ -1,3 +1,4 @@
+var Bullet = require("./bullet.js");
 function clamp(number, min, max) {
 	return Math.min(Math.max(number, min), max);
 };
@@ -10,6 +11,7 @@ var Player = function(name, socket) {
 	this.speedX = 0;
 	this.speedY = 0;
 	this.angle = 0;
+	this.bullets=[];
 
 	this.printName = function() {
 		console.log(this.name);
@@ -40,7 +42,7 @@ var Player = function(name, socket) {
 
 	this.socket.on('frame', function(keys) {
 		var maxSpeed=1.5;
-	
+		this.angle=keys.angle;		
 		//handle key inputs!
 		if (keys.left) { //left
 			//velX = -10;
@@ -66,6 +68,11 @@ var Player = function(name, socket) {
 			if (this.speedY > -maxSpeed) {
 				this.speedY -= 0.2;
 			}
+		}
+		if (keys.mouse){
+			console.log("MOUSE PRESSED");
+			this.bullets.push(new Bullet({x:this.x,y:this.y}, this.angle, 1, this))
+			//fire a bullet!
 		}
 	}.bind(this));
 };

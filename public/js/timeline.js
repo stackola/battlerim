@@ -5,6 +5,7 @@ var timeline = {
 			time:Date.now(),
 			state:s
 		}
+
 		this.snapshots = this.snapshots.filter(function(d){return d.time>Date.now()-2000});
 		this.snapshots.push(aSnap);
 		this.snapshots.sort(function(a,b){return a.time>b.time});
@@ -37,19 +38,20 @@ var timeline = {
 
 		var newFrame={
 			time:time,
-			state:[]
+			state:{players:[], bullets:frameBefore.state.bullets}
 		}
 
-		for (var i = 0; i < frameBefore.state.length; i++) {
-			var stateBefore = frameBefore.state[i];
-			var stateAfter = frameAfter.state[i];
+		for (var i = 0; i < frameBefore.state.players.length; i++) {
+			var stateBefore = frameBefore.state.players[i];
+			var stateAfter = frameAfter.state.players[i];
 
 			var newX = stateBefore.x + (stateAfter.x - stateBefore.x)* percentageDone;
 			var newY = stateBefore.y + (stateAfter.y - stateBefore.y)* percentageDone;
-			newFrame.state.push({x:newX,y:newY});
+			newFrame.state.players.push({x:newX,y:newY});
 
 
 		}
+		console.log(newFrame);
 
 		return newFrame;
 
